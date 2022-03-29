@@ -98,6 +98,28 @@ module Ari
       Channel.new(response.merge(client: options[:client]))
     end
 
+
+    # POST /channels/%{channelId}/dial
+    #
+    # Active channel
+    #
+    #
+    # Parameters:
+    #
+    # channelId (required) - Channel's id
+    #
+    def self.dial(options = {})
+      raise ArgumentError.new("Parameter channelId must be passed in options hash.") unless options[:channelId]
+      path = '/channels/%{channelId}/dial' % options
+      response = client(options).post(path, options)
+    end
+
+    def dial(options = {})
+      self.class.dial(options.merge(channelId: self.id, client: @client))
+    end
+
+
+
     # GET /channels/%{channelId}
     #
     # Active channel
@@ -173,6 +195,8 @@ module Ari
     def hangup(options = {})
       self.class.hangup(options.merge(channelId: self.id, client: @client))
     end
+
+
 
     # POST /channels/%{channelId}/continue
     #
