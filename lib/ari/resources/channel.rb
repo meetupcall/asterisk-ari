@@ -70,6 +70,34 @@ module Ari
       Channel.new(response.merge(client: options[:client]))
     end
 
+    # POST /channels/create
+    #
+    # Active channels
+    #
+    #
+    # Parameters:
+    #
+    # endpoint (required) - Endpoint to call.
+    # extension  - The extension to dial after the endpoint answers. Mutually exclusive with 'app'.
+    # context  - The context to dial after the endpoint answers. If omitted, uses 'default'. Mutually exclusive with 'app'.
+    # priority  - The priority to dial after the endpoint answers. If omitted, uses 1. Mutually exclusive with 'app'.
+    # label  - The label to dial after the endpoint answers. Will supersede 'priority' if provided. Mutually exclusive with 'app'.
+    # app  - The application that is subscribed to the originated channel. When the channel is answered, it will be passed to this Stasis application. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+    # appArgs  - The application arguments to pass to the Stasis application provided by 'app'. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
+    # callerId  - CallerID to use when dialing the endpoint or extension.
+    # timeout  - Timeout (in seconds) before giving up dialing, or -1 for no timeout.
+    # variables  - The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }
+    # channelId  - The unique id to assign the channel on creation.
+    # otherChannelId  - The unique id to assign the second channel when using local channels.
+    # originator  - The unique id of the channel which is originating this one.
+    #
+    def self.create(options = {})
+      raise ArgumentError.new("Parameter endpoint must be passed in options hash.") unless options[:endpoint]
+      path = '/channels/create'
+      response = client(options).post(path, options)
+      Channel.new(response.merge(client: options[:client]))
+    end
+
     # GET /channels/%{channelId}
     #
     # Active channel
