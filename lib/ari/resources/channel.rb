@@ -12,7 +12,7 @@
 module Ari
   class Channel < Resource
 
-    attr_reader :id, :name, :state, :caller, :connected, :accountcode, :dialplan, :creationtime, :language
+    attr_reader :id, :name, :state, :caller, :connected, :accountcode, :dialplan, :creationtime, :language, :variables
 
     def caller=(val)
       @caller ||= CallerID.new(val)
